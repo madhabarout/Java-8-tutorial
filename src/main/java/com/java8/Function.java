@@ -1,0 +1,21 @@
+package com.java8;
+
+@FunctionalInterface
+public interface Function<T , R> {
+
+    R apply(T t);
+
+    default <V> Function<T, V > andThen(Function<R , V> other){
+        return (T t) ->{
+            R r = this.apply(t);
+            return other.apply(r);
+        };
+    };
+
+    default <V> Function<V , R> composing(Function<V, T> other){
+        return (V v) ->{
+            T t = other.apply(v);
+            return this.apply(t);
+        };
+    };
+}
